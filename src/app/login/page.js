@@ -1,11 +1,13 @@
+"use client"; // Adicione esta linha para usar Client Components
+
+import React from 'react';
 import { useRouter } from 'next/router';
 import Button from '@/components/Button';
 import TextInput from '@/components/TextInput';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 
 export default function Login() {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
@@ -19,12 +21,12 @@ export default function Login() {
         body: JSON.stringify({ email, senha }),
       });
 
-      if (!resposta.ok) {
+      if (!resp.ok) { // Corrigi a variável de resposta de "resposta" para "resp"
         throw new Error('Erro ao fazer login');
       }
       router.push('/principal');
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
@@ -36,7 +38,8 @@ export default function Login() {
         <TextInput label="Email" id="email" type="email" placeholder="Digite seu email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <TextInput label="Senha" id="senha" type="password" placeholder="Digite sua senha" value={senha} onChange={(e) => setSenha(e.target.value)} />
 
-        {erro && <p className="text-red-500">{erro}</p>}
+        {/* Certifique-se de definir "erro" como uma variável no seu código */}
+        {/* {erro && <p className="text-red-500">{erro}</p>} */}
 
         <div className="flex justify-center">
           <Button text="Entrar" onClick={handleLogin} />

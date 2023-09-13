@@ -1,3 +1,5 @@
+"use server"
+
 import { useRouter } from 'next/router';
 import Button from '@/components/Button';
 import Header from '@/components/Header';
