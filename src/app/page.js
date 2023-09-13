@@ -1,4 +1,4 @@
-import Header from "@/components/header";
+import Header from "@/components/Header";
 import Login from "./login/page";
 import Principal from "./principal/page";
 // import Cart from "./cart/page"
