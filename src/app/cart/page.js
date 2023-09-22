@@ -1,18 +1,46 @@
-"use client";
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import CartItem from '@/components/CartItem';
 import PaymentOption from '@/components/PaymentOption';
+import Link from 'next/link';
 
 const Cart = () => {
   const [selectedPayment, setSelectedPayment] = useState('');
-
-  const cartItems = [
+  const [cartItems, setCartItems] = useState([
     { name: 'Feijão', price: 2.5, quantity: 2 },
     { name: 'Arroz', price: 1.8, quantity: 1 },
-  ];
+  ]);
 
   const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+  const enviarPedidoParaAPI = async () => {
+    const apiUrl = 'http://localhost:8080/api/produtos'; 
+    const pedido = {
+      items: cartItems.map(item => ({ name: item.name, price: item.price, quantity: item.quantity })),
+      total: totalPrice,
+      pagamento: selectedPayment,
+    };
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(pedido),
+      });
+
+      if (response.ok) {
+        console.log('Pedido enviado com sucesso!');
+        setCartItems([]);
+        setSelectedPayment('');
+      } else {
+        console.error('Erro ao enviar o pedido para a API.');
+      }
+    } catch (error) {
+      console.error('Erro ao enviar o pedido:', error);
+    }
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen p-8">
@@ -50,6 +78,16 @@ const Cart = () => {
             selected={selectedPayment}
             onSelect={setSelectedPayment}
           />
+          <div className="mt-4">
+            <button
+              onClick={enviarPedidoParaAPI}
+              className="bg-indigo-500 text-white px-4 py-2 rounded-full"
+              disabled={!selectedPayment || cartItems.length === 0}
+            ><Link href="/confirmar">
+              Finalizar Pedido
+              </Link>
+            </button>
+          </div>
         </div>
       </div>
     </div>

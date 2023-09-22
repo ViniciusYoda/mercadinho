@@ -21,7 +21,7 @@ export default function Login() {
         body: JSON.stringify({ email, senha }),
       });
 
-      if (!resp.ok) { // Corrigi a variável de resposta de "resposta" para "resp"
+      if (!resp.ok) { 
         throw new Error('Erro ao fazer login');
       }
       router.push('/principal');
@@ -38,8 +38,6 @@ export default function Login() {
         <TextInput label="Email" id="email" type="email" placeholder="Digite seu email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <TextInput label="Senha" id="senha" type="password" placeholder="Digite sua senha" value={senha} onChange={(e) => setSenha(e.target.value)} />
 
-        {/* Certifique-se de definir "erro" como uma variável no seu código */}
-        {/* {erro && <p className="text-red-500">{erro}</p>} */}
 
         <div className="flex justify-center">
           <Button text="Entrar" onClick={handleLogin} />
